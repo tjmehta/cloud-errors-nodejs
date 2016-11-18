@@ -80,6 +80,22 @@ test('optional additional message should replace error string', function(t) {
   t.equal(r.message, 'wrench', 'additional message should replace');
 });
 
+test('optional user without request', function(t) {
+  var r = report('monkey', 'wrench', 'user1', function(err, res) {
+    t.end();
+  });
+  t.equal(r.message, 'wrench', 'additional message should replace');
+  t.equal(r.context.user, 'user1', 'user should exist');
+});
+
+test('optional user with request', function(t) {
+  var r = report('monkey', { method: 'FETCH' }, 'wrench', 'user1', function(err, res) {
+    t.end();
+  });
+  t.equal(r.message, 'wrench', 'additional message should replace');
+  t.equal(r.context.user, 'user1', 'user should exist');
+});
+
 test('all arguments', function(t) {
   var r = report('donkey', { method: 'FETCH' }, 'cart', function(err, res) {
     t.end();
